@@ -1,0 +1,215 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type PasswordReset {
+  id: Int!
+  token: String!
+  user: User!
+  expires_at: DateTime!
+  created_at: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Task {
+  id: Float!
+  description: String!
+  created_at: DateTime!
+  completed_at: DateTime
+  user: User!
+  list: List!
+  updated_at: DateTime
+}
+
+type List {
+  id: Float!
+  name: String!
+  description: String
+  user: User!
+  tasks: [Task!]
+  created_at: DateTime!
+  updated_at: DateTime
+}
+
+type User {
+  id: Int!
+  full_name: String!
+  email: String!
+  password_resets: [PasswordReset!]
+  groups: [Group!]!
+  tasks: [Task!]
+  lists: [List!]!
+  created_at: DateTime!
+  updated_at: DateTime
+}
+
+type Group {
+  id: Float!
+  name: String!
+  description: String
+  users: [User!]!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type CreateListResponse {
+  message: String!
+  data: List!
+}
+
+type DeleteListResponse {
+  message: String!
+}
+
+type UpdateListResponse {
+  message: String!
+  data: List!
+}
+
+type LoginData {
+  accessToken: String!
+  user: User!
+}
+
+type LoginResponse {
+  message: String!
+  data: LoginData!
+}
+
+type ForgotPasswordResponse {
+  message: String!
+}
+
+type CreateTaskResponse {
+  message: String!
+  data: Task!
+}
+
+type UpdateTaskResponse {
+  message: String!
+  data: Task!
+}
+
+type DeleteTaskResponse {
+  message: String!
+}
+
+type CompleteTaskResponse {
+  message: String!
+}
+
+type Query {
+  """Get list of all user list of tasks"""
+  lists: [List!]!
+
+  """Get a single list of all user list of tasks"""
+  list(input: FetchSingleListInput!): List!
+
+  """Get list of all user groups"""
+  groups(filter: FetchAllGroupInput!): [Group!]!
+
+  """Get task of all user tasks"""
+  tasks: [Task!]!
+
+  """Get a single task of all user tasks"""
+  task(input: FetchSingleTaskInput!): Task!
+}
+
+input FetchSingleListInput {
+  listId: Float!
+}
+
+input FetchAllGroupInput {
+  name: String!
+}
+
+input FetchSingleTaskInput {
+  taskId: Float!
+}
+
+type Mutation {
+  """Create new list"""
+  createList(input: CreateListInput!): CreateListResponse!
+
+  """Update a list"""
+  updateList(input: UpdateListInput!): UpdateListResponse!
+
+  """Delete a list"""
+  deleteList(input: DeleteListInput!): DeleteListResponse!
+  signup(input: SignupInput!): User!
+  login(input: LoginInput!): LoginResponse!
+  forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse!
+  resetPassword(input: ResetPasswordInput!): String!
+
+  """Create new task"""
+  createTask(input: CreateTaskInput!): CreateTaskResponse!
+
+  """Update a task"""
+  updateTask(input: UpdateTaskInput!): UpdateTaskResponse!
+
+  """Delete a task"""
+  deleteTask(input: DeleteTaskInput!): DeleteTaskResponse!
+
+  """Sets tasks as completed"""
+  completeTask(input: CompleteTaskInput!): CompleteTaskResponse!
+}
+
+input CreateListInput {
+  name: String!
+  description: String
+}
+
+input UpdateListInput {
+  listId: Float
+  name: String
+  description: String
+}
+
+input DeleteListInput {
+  listId: Float!
+}
+
+input SignupInput {
+  full_name: String!
+  email: String!
+  password: String!
+  confirm_password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  token: String!
+  password: String!
+  confirm_password: String!
+}
+
+input CreateTaskInput {
+  description: String!
+  listId: Float!
+}
+
+input UpdateTaskInput {
+  taskId: Float!
+  description: String
+  listId: Float
+}
+
+input DeleteTaskInput {
+  taskId: Float!
+}
+
+input CompleteTaskInput {
+  taskId: Float!
+}
